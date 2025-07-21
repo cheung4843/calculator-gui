@@ -1,5 +1,9 @@
 #pragma once
+
 #include <string>
+#include <vector>
+
+#include "token.hpp"
 
 namespace calculator {
 
@@ -11,5 +15,8 @@ namespace calculator {
 
     // 檢查是否為合法運算子
     bool is_operator(const std::string &op);
+
+    // 判斷是否是一元負號
+    bool is_unary_minus(const std::vector<Token> &tokens, size_t index);
 
 }  // namespace calculator

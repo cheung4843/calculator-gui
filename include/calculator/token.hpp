@@ -7,7 +7,7 @@ namespace calculator {
     // Token 的類型：數字、運算子、括號
     enum class TokenType {
         NUMBER,    // 例如：12, 3.14
-        OPERATOR,  // 例如：+ - * /
+        OPERATOR,  // 例如：+, -, *, /, NEG(由 - 轉換而來)
         LPAREN,    // (
         RPAREN     // )
     };

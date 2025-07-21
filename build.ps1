@@ -17,7 +17,7 @@ if ($answer -eq "y" -or $answer -eq "Y") {
   # 進入 build 並執行 cmake
   Set-Location $buildDir
   Write-Host "執行 cmake .."
-  cmake ..
+  cmake .. -G "MinGW Makefiles"
 
 } elseif ($answer -eq "n" -or $answer -eq "N") {
   if (-Not (Test-Path $buildDir)) {

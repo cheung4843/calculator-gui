@@ -15,22 +15,27 @@ namespace calculator {
         std::vector<Token> output;
         std::stack<Token> op_st;
 
-        for (const auto &token : tokens_) {
+        for (size_t i = 0; i < tokens_.size(); ++i) {
+            const Token &token = tokens_[i];
             if (token.type == TokenType::NUMBER) {
                 // 數字直接輸出
                 output.push_back(token);
             } else if (token.type == TokenType::OPERATOR) {
-                // 持續彈出 stack 中的運算子，直到遇到優先級較低的運算子或左括號
-                while (!op_st.empty() && precedence_out_stack(token.value) <=
+                // 檢查是否為一元負號
+                const Token &curr_token =
+                    is_unary_minus(tokens_, i) ? Token(TokenType::OPERATOR, "NEG") : token;
+
+                // 持續 pop 出 stack 中的運算子，直到遇到優先級較低的運算子或左括號
+                while (!op_st.empty() && precedence_out_stack(curr_token.value) <=
                                              precedence_in_stack(op_st.top().value)) {
                     output.push_back(op_st.top());
                     op_st.pop();
                 }
-                op_st.push(token);  // 新運算子進 stack
+                op_st.push(curr_token);  // 新運算子進 stack
             } else if (token.type == TokenType::LPAREN) {
                 op_st.push(token);
             } else if (token.type == TokenType::RPAREN) {
-                // 將 stack 頂運算子彈出直到遇到左括號
+                // 將 stack 頂的運算子 pop 出直到遇到左括號
                 while (!op_st.empty() && op_st.top().type != TokenType::LPAREN) {
                     output.push_back(op_st.top());
                     op_st.pop();
@@ -44,7 +49,7 @@ namespace calculator {
             }
         }
 
-        // 將剩下的運算子彈出
+        // 將剩下的運算子 pop 出來
         while (!op_st.empty()) {
             if (op_st.top().type == TokenType::LPAREN || op_st.top().type == TokenType::RPAREN) {
                 // 如果 stack 中還有括號，表示括號不匹配

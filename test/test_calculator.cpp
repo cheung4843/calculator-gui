@@ -1,4 +1,5 @@
 #include "calculator/calculator.hpp"
+
 #include "catch_amalgamated.hpp"
 
 using namespace calculator;

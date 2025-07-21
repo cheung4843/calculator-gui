@@ -17,30 +17,38 @@ namespace calculator {
             if (token.type == TokenType::NUMBER) {
                 num_st.push(std::stod(token.value));
             } else if (token.type == TokenType::OPERATOR) {
-                if (num_st.size() < 2) {
-                    throw std::runtime_error("Too few operands for operator");
-                }
-
-                double rhs = num_st.top();
-                num_st.pop();
-                double lhs = num_st.top();
-                num_st.pop();
-                double result = 0.0;
-
-                if (token.value == "+") {
-                    result = lhs + rhs;
-                } else if (token.value == "-") {
-                    result = lhs - rhs;
-                } else if (token.value == "*") {
-                    result = lhs * rhs;
-                } else if (token.value == "/") {
-                    if (rhs == 0.0) throw std::runtime_error("Division by zero");
-                    result = lhs / rhs;
+                if (token.value == "NEG") {
+                    if (num_st.empty()) {
+                        throw std::runtime_error("NEG operator missing operand (e.g., '-x')");
+                    }
+                    double operand = num_st.top();
+                    num_st.pop();
+                    num_st.push(-operand);
                 } else {
-                    throw std::runtime_error("Unknown operator: " + token.value);
-                }
+                    if (num_st.size() < 2) {
+                        throw std::runtime_error("Too few operands for operator");
+                    }
+                    double rhs = num_st.top();
+                    num_st.pop();
+                    double lhs = num_st.top();
+                    num_st.pop();
+                    double result = 0.0;
 
-                num_st.push(result);
+                    if (token.value == "+") {
+                        result = lhs + rhs;
+                    } else if (token.value == "-") {
+                        result = lhs - rhs;
+                    } else if (token.value == "*") {
+                        result = lhs * rhs;
+                    } else if (token.value == "/") {
+                        if (rhs == 0.0) throw std::runtime_error("Division by zero");
+                        result = lhs / rhs;
+                    } else {
+                        throw std::runtime_error("Unknown operator: " + token.value);
+                    }
+
+                    num_st.push(result);
+                }
             }
         }
 
