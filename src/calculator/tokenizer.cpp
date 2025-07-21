@@ -61,7 +61,15 @@ namespace calculator {
         return Token(TokenType::NUMBER, std::string(expr_.substr(start, pos_ - start)));
     }
 
-    // 掃描整個表達式，把一連串字元分割成一顆顆 Token，方便後面分析與運算
+    Token Tokenizer::parse_identifier() {
+        size_t start = pos_;
+        while (std::isalnum(peek()) || peek() == '_') {
+            get();
+        }
+        return Token(TokenType::IDENTIFIER, std::string(expr_.substr(start, pos_ - start)));
+    }
+
+    // 掃描整個表達式，把一連串字元分割成一個個 Token，方便後面分析與運算
     std::vector<Token> Tokenizer::tokenize() {
         std::vector<Token> tokens;
         // 只要還沒讀到字串結尾，就繼續掃描
@@ -87,8 +95,15 @@ namespace calculator {
             } else if (c == ')') {
                 get();
                 tokens.emplace_back(TokenType::RPAREN, ")");
-            } else if (c == '\0') {
-                break;
+
+            } else if (std::isalpha(c)) {
+                // 如果是字母，可能是變數
+                tokens.push_back(parse_identifier());
+
+            } else if (c == '=') {
+                // 賦值運算子
+                get();
+                tokens.emplace_back(TokenType::ASSIGN, "=");
             } else {
                 // 若不是上述類型（數字、運算子、括號），就丟出錯誤（例如
                 // $、#、中文等）

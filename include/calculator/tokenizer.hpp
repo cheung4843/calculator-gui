@@ -29,6 +29,8 @@ namespace calculator {
             void skip_whitespace();
             // 解析一個「數字 token」
             Token parse_number();
+            // 解析一個「變數 token」
+            Token parse_identifier();
     };
 
 }  // namespace calculator
