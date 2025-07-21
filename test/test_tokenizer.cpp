@@ -1,10 +1,10 @@
-#include "catch_amalgamated.hpp"
 #include "calculator/tokenizer.hpp"
+
+#include "catch_amalgamated.hpp"
 
 using namespace calculator;
 
-TEST_CASE("Tokenizer returns expected tokens", "[Tokenizer]")
-{
+TEST_CASE("Tokenizer returns expected tokens", "[Tokenizer]") {
     std::string expr = "12 + 3.5 * (2 - 4)";
     Tokenizer tokenizer(expr);
     auto tokens = tokenizer.tokenize();

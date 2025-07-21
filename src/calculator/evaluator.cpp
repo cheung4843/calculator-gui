@@ -1,31 +1,23 @@
-#include "calculator/evaluator.hpp"
 #include <stack>
 #include <stdexcept>
 
-namespace calculator
-{
+#include "calculator/evaluator.hpp"
 
-    Evaluator::Evaluator(std::vector<Token> &postfix_tokens)
-        : postfix_tokens_(postfix_tokens) {}
+namespace calculator {
 
-    void Evaluator::set_postfix(const std::vector<Token> &postfix_tokens)
-    {
+    Evaluator::Evaluator(std::vector<Token> &postfix_tokens) : postfix_tokens_(postfix_tokens) {}
+
+    void Evaluator::set_postfix(const std::vector<Token> &postfix_tokens) {
         postfix_tokens_ = postfix_tokens;
     }
-    double Evaluator::evaluate() const
-    {
+    double Evaluator::evaluate() const {
         std::stack<double> num_st;
 
-        for (const auto &token : postfix_tokens_)
-        {
-            if (token.type == TokenType::NUMBER)
-            {
+        for (const auto &token : postfix_tokens_) {
+            if (token.type == TokenType::NUMBER) {
                 num_st.push(std::stod(token.value));
-            }
-            else if (token.type == TokenType::OPERATOR)
-            {
-                if (num_st.size() < 2)
-                {
+            } else if (token.type == TokenType::OPERATOR) {
+                if (num_st.size() < 2) {
                     throw std::runtime_error("Too few operands for operator");
                 }
 
@@ -35,26 +27,16 @@ namespace calculator
                 num_st.pop();
                 double result = 0.0;
 
-                if (token.value == "+")
-                {
+                if (token.value == "+") {
                     result = lhs + rhs;
-                }
-                else if (token.value == "-")
-                {
+                } else if (token.value == "-") {
                     result = lhs - rhs;
-                }
-                else if (token.value == "*")
-                {
+                } else if (token.value == "*") {
                     result = lhs * rhs;
-                }
-                else if (token.value == "/")
-                {
-                    if (rhs == 0.0)
-                        throw std::runtime_error("Division by zero");
+                } else if (token.value == "/") {
+                    if (rhs == 0.0) throw std::runtime_error("Division by zero");
                     result = lhs / rhs;
-                }
-                else
-                {
+                } else {
                     throw std::runtime_error("Unknown operator: " + token.value);
                 }
 
@@ -62,12 +44,11 @@ namespace calculator
             }
         }
 
-        if (num_st.size() != 1)
-        {
+        if (num_st.size() != 1) {
             throw std::runtime_error("Invalid postfix expression");
         }
 
         return num_st.top();
     }
 
-}
+}  // namespace calculator

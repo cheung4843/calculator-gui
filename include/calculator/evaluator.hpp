@@ -1,20 +1,19 @@
 #pragma once
-#include "token.hpp"
 #include <vector>
 
-namespace calculator
-{
-    class Evaluator
-    {
-    public:
-        Evaluator() = default;
-        explicit Evaluator(std::vector<Token> &postfix_tokens);
+#include "token.hpp"
 
-        void set_postfix(const std::vector<Token> &postfix_tokens);
-        double evaluate() const;
+namespace calculator {
+    class Evaluator {
+        public:
+            Evaluator() = default;
+            explicit Evaluator(std::vector<Token> &postfix_tokens);
 
-    private:
-        std::vector<Token> postfix_tokens_;
+            void set_postfix(const std::vector<Token> &postfix_tokens);
+            double evaluate() const;
+
+        private:
+            std::vector<Token> postfix_tokens_;
     };
 
-}
+}  // namespace calculator
