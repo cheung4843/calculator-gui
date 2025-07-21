@@ -14,7 +14,7 @@ namespace calculator {
     int precedence_out_stack(const std::string &op);
 
     // 檢查是否為合法運算子
-    bool is_operator(const std::string &op);
+    bool is_operator(const char op);
 
     // 判斷是否是一元負號
     bool is_unary_minus(const std::vector<Token> &tokens, size_t index);

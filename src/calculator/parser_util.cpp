@@ -20,6 +20,10 @@ namespace calculator {
         throw std::runtime_error("Invalid out-stack operator: " + op);
     }
 
+    bool is_operator(const char op) {
+        return op == '+' || op == '-' || op == '*' || op == '/';
+    }
+
     bool is_unary_minus(const std::vector<Token>& tokens, size_t index) {
         // 如果不是負號，那肯定不是一元負號
         if (tokens[index].type != TokenType::OPERATOR || tokens[index].value != "-") {
