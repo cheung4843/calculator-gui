@@ -1,14 +1,14 @@
-#include "calculator/tokenizer.h"
+#include "calculator/tokenizer.hpp"
 #include <cctype>
 #include <stdexcept>
 
 namespace calculator
 {
 
-    Tokenizer::Tokenizer(std::string &expr)
+    Tokenizer::Tokenizer(std::string_view expr)
         : expr_(expr), pos_(0) {}
 
-    void Tokenizer::set_input(const std::string &expr)
+    void Tokenizer::set_input(const std::string_view expr)
     {
         expr_ = expr;
         pos_ = 0;
@@ -44,8 +44,8 @@ namespace calculator
                 has_dot = true;
             get();
         }
-        // 取出整段數字作為一個 Token
-        return Token(TokenType::NUMBER, expr_.substr(start, pos_ - start));
+        // 取出整段數字作為一個 Token，留意要將 string_view 轉換成 std::string
+        return Token(TokenType::NUMBER, std::string(expr_.substr(start, pos_ - start)));
     }
 
     // 掃描整個表達式，把一連串字元分割成一顆顆 Token，方便後面分析與運算

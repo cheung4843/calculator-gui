@@ -1,7 +1,7 @@
 #include "catch_amalgamated.hpp"
 
-#include "calculator/tokenizer.h"
-#include "calculator/parser.h"
+#include "calculator/tokenizer.hpp"
+#include "calculator/parser.hpp"
 #include <vector>
 #include <string>
 

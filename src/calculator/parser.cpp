@@ -1,5 +1,5 @@
-#include "calculator/parser.h"
-#include "calculator/parser_util.h"
+#include "calculator/parser.hpp"
+#include "calculator/parser_util.hpp"
 #include <stack>
 #include <stdexcept>
 

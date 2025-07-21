@@ -1,7 +1,4 @@
-#include "calculator/tokenizer.h"
-#include "calculator/parser.h"
-#include "calculator/evaluator.h"
-
+#include "calculator/calculator.hpp"
 #include <iostream>
 #include <string>
 
@@ -12,10 +9,8 @@ int main()
   std::cout << "Welcome to calculator-cli!\n";
   std::cout << "Type an expression (e.g., 3 + 5 * (2 - 1)) or type 'exit' to quit.\n";
 
+  Calculator calc;
   std::string input;
-  Tokenizer tokenizer;
-  Parser parser;
-  Evaluator evaluator;
 
   while (true)
   {
@@ -24,21 +19,13 @@ int main()
 
     if (input == "exit" || input == "quit")
     {
-      std::cout << "Goodbye! \n";
+      std::cout << "Goodbye!\n";
       break;
     }
 
     try
     {
-      tokenizer.set_input(input);
-      auto tokens = tokenizer.tokenize();
-
-      parser.set_tokens(tokens);
-      auto postfix = parser.to_postfix();
-
-      evaluator.set_postfix(postfix);
-      double result = evaluator.evaluate();
-
+      double result = calc.compute(input); // ← 改成只呼叫 compute()
       std::cout << "Result = " << result << "\n";
     }
     catch (const std::exception &e)

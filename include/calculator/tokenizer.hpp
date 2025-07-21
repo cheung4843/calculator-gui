@@ -1,6 +1,6 @@
 #pragma once
 
-#include "calculator/token.h"
+#include "token.hpp"
 #include <string>
 #include <vector>
 
@@ -11,15 +11,15 @@ namespace calculator
     {
     public:
         Tokenizer() = default; // 預設建構子，可能用於測試或其他情況
-        explicit Tokenizer(std::string &expr);
+        explicit Tokenizer(std::string_view expr);
 
-        void set_input(const std::string &expr);
+        void set_input(std::string_view expr);
         std::vector<Token> tokenize();
 
     private:
-        // 儲存輸入的數學表達式，例如 "1 + 2"
-        std::string expr_;
-        // 掃描目前讀到的字元位置（像滑鼠游標）
+        // 表達式字串，使用 std::string_view 以避免不必要的複製
+        std::string_view expr_;
+        // 掃描目前讀到的字元位置（像滑鼠游標）F
         size_t pos_;
 
         // 取得目前字元但不移動位置

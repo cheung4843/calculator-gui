@@ -1,6 +1,6 @@
 #include "catch_amalgamated.hpp"
-#include "calculator/evaluator.h"
-#include "calculator/token.h"
+#include "calculator/evaluator.hpp"
+#include "calculator/token.hpp"
 
 using namespace calculator;
 

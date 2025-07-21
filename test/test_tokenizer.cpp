@@ -1,5 +1,5 @@
 #include "catch_amalgamated.hpp"
-#include "calculator/tokenizer.h"
+#include "calculator/tokenizer.hpp"
 
 using namespace calculator;
 
