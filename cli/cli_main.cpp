@@ -1,9 +1,11 @@
-#include "calculator/repl.hpp"
+
+
+#include "repl.hpp"
 
 using namespace calculator;
 
 int main() {
-    calculator::CalculatorRepl repl;
+    cli::CalculatorRepl repl;
     repl.run();
 
     return 0;

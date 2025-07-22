@@ -1,10 +1,9 @@
 #pragma once
 
 #include <string>
+#include "calculator/calculator.hpp"
 
-#include "calculator.hpp"
-
-namespace calculator {
+namespace cli {
     class CalculatorRepl {
         public:
             CalculatorRepl();
@@ -15,5 +14,4 @@ namespace calculator {
             bool handle_command(const std::string& input);
             bool is_exit_command(const std::string& input) const;
     };
-
-}  // namespace calculator
+}  // namespace cli

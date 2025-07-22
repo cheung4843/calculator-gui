@@ -83,7 +83,7 @@ cd calculator-repl
 ## 📁 專案結構
 
 ```
-calculator-cli/
+calculator-repl/
 ├── app/                # 主程式入口 main.cpp
 ├── include/            # 公開 header（calculator_core 封裝）
 ├── src/                # Tokenizer / Parser / Evaluator / REPL 實作

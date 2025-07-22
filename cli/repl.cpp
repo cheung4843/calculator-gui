@@ -1,10 +1,9 @@
 #include <iostream>
 
-#include <calculator/repl.hpp>
-#include <calculator/calculator.hpp>
+#include "repl.hpp"
+#include "calculator/calculator.hpp"
 
-namespace calculator {
-
+namespace cli {
     CalculatorRepl::CalculatorRepl() : calc_() {}
     void CalculatorRepl::run() {
         std::cout << "Welcome to calculator-repl! tpye '.vars' to show all variables\n";
@@ -74,5 +73,4 @@ namespace calculator {
     bool CalculatorRepl::is_exit_command(const std::string& input) const {
         return input == "exit" || input == "quit";
     }
-
-}  // namespace calculator
+}  // namespace cli
