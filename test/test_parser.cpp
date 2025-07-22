@@ -53,3 +53,25 @@ TEST_CASE("Mismatched parentheses throws", "[Parser]") {
     Parser parser(tokens);
     REQUIRE_THROWS_AS(parser.to_postfix(), std::runtime_error);
 }
+
+TEST_CASE("Function call is handled", "[Parser]") {
+    std::string expr = "sin(1)";
+    Tokenizer tokenizer(expr);
+    auto tokens = tokenizer.tokenize();
+    Parser parser(tokens);
+    auto postfix = parser.to_postfix();
+    auto values = extract_values(postfix);
+    std::vector<std::string> expected = {"1", "sin"};
+    REQUIRE(values == expected);
+}
+
+TEST_CASE("Unary minus, varibables and Function", "[Parser]") {
+    std::string expr = "y = -sin(x)";
+    Tokenizer tokenizer(expr);
+    auto tokens = tokenizer.tokenize();
+    Parser parser(tokens);
+    auto postfix = parser.to_postfix();
+    auto values = extract_values(postfix);
+    std::vector<std::string> expected = {"x", "sin", "NEG", "y", "STORE"};
+    REQUIRE(values == expected);
+}

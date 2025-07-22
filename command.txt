@@ -1,4 +1,4 @@
 cd your-project-root/
 mkdir -p build && cd build
-cmake .. -G "MinGW Makefiles"
-mingw32-make
+cmake .. -G "MinGW Makefiles" <- 有動到 CMakeLists.txt
+mingw32-make <- 只有修改程式碼就跑這個

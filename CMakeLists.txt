@@ -6,8 +6,6 @@ set(CMAKE_CXX_STANDARD 20)
 # =============================
 # Include paths
 # =============================
-
-# 讓你可以寫 #include "calculator/xxx.h"
 include_directories(include)
 
 # =============================
@@ -23,17 +21,25 @@ add_library(test_main OBJECT test/test_main.cpp)
 target_include_directories(test_main PUBLIC third_party)
 
 # =============================
-# 主程式
+# 封裝 Calculator 核心函式庫
 # =============================
-add_executable(calculator
-  app/main.cpp
+add_library(calculator_core STATIC
   src/calculator/tokenizer.cpp
   src/calculator/parser.cpp
   src/calculator/parser_util.cpp
   src/calculator/evaluator.cpp
   src/calculator/calculator.cpp
+)
+target_include_directories(calculator_core PUBLIC include)
+
+# =============================
+# 主程式（REPL 介面）
+# =============================
+add_executable(calculator
+  app/main.cpp
   src/calculator/repl.cpp
 )
+target_link_libraries(calculator PRIVATE calculator_core)
 
 # =============================
 # 單元測試：Calculator
@@ -41,13 +47,8 @@ add_executable(calculator
 add_executable(test_calculator
   $<TARGET_OBJECTS:test_main>
   test/test_calculator.cpp
-  src/calculator/tokenizer.cpp
-  src/calculator/parser.cpp
-  src/calculator/parser_util.cpp
-  src/calculator/evaluator.cpp
-  src/calculator/calculator.cpp
 )
-target_link_libraries(test_calculator PRIVATE catch2)
+target_link_libraries(test_calculator PRIVATE catch2 calculator_core)
 
 # =============================
 # 單元測試：Tokenizer
@@ -55,9 +56,8 @@ target_link_libraries(test_calculator PRIVATE catch2)
 add_executable(test_tokenizer
   $<TARGET_OBJECTS:test_main>
   test/test_tokenizer.cpp
-  src/calculator/tokenizer.cpp
 )
-target_link_libraries(test_tokenizer PRIVATE catch2)
+target_link_libraries(test_tokenizer PRIVATE catch2 calculator_core)
 
 # =============================
 # 單元測試：Parser
@@ -65,11 +65,8 @@ target_link_libraries(test_tokenizer PRIVATE catch2)
 add_executable(test_parser
   $<TARGET_OBJECTS:test_main>
   test/test_parser.cpp
-  src/calculator/tokenizer.cpp
-  src/calculator/parser.cpp
-  src/calculator/parser_util.cpp
 )
-target_link_libraries(test_parser PRIVATE catch2)
+target_link_libraries(test_parser PRIVATE catch2 calculator_core)
 
 # =============================
 # 單元測試：Evaluator
@@ -77,9 +74,8 @@ target_link_libraries(test_parser PRIVATE catch2)
 add_executable(test_evaluator
   $<TARGET_OBJECTS:test_main>
   test/test_evaluator.cpp
-  src/calculator/evaluator.cpp
 )
-target_link_libraries(test_evaluator PRIVATE catch2)
+target_link_libraries(test_evaluator PRIVATE catch2 calculator_core)
 
 # =============================
 # UNIX 系統下可能需要 pthread

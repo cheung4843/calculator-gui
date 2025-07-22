@@ -4,12 +4,13 @@
 
 using namespace calculator;
 
-TEST_CASE("Valid numeric expression", "[Calculator]") {
+TEST_CASE("Variable assignment and usage", "[Calculator]") {
     Calculator calc;
-    REQUIRE(calc.compute("3.14") == Catch::Approx(3.14));
+    REQUIRE(calc.compute("x = 10") == Catch::Approx(10.0));
+    REQUIRE(calc.compute("x + 5") == Catch::Approx(15.0));
 }
 
-TEST_CASE("Invalid expression throws", "[Calculator]") {
+TEST_CASE("Function calls in expression", "[Calculator]") {
     Calculator calc;
-    REQUIRE_THROWS_AS(calc.compute("Shawn is handsome"), std::runtime_error);
+    REQUIRE(calc.compute("sqrt(16) + cos(0)") == Catch::Approx(5.0));
 }
