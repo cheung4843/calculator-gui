@@ -3,6 +3,8 @@
 一個用現代 C++ 開發的命令列科學計算機，支援變數、函式、REPL 模式與完整單元測試。  
 採用模組化設計（Tokenizer / Parser / Evaluator / Calculator），並使用 Catch2 進行單元測試。
 
+此版本基於 [calculator-cli](https://github.com/cheung4843/calculator-cli) 進行重構與擴展，並加入 REPL 功能。
+
 ---
 
 ## 🚀 快速開始
@@ -21,8 +23,8 @@
 1. 先 clone 專案：
 
 ```bash
-git clone https://github.com/cheung4843/calculator-cli.git
-cd calculator-cli
+git clone https://github.com/cheung4843/calculator-repl.git
+cd calculator-repl
 ```
 
 2. 執行建置腳本（支援增量編譯與目標選擇）：
@@ -114,7 +116,6 @@ calculator-cli/
 - 支援多參數函式：如 `pow(x, y)`
 - 自定函式與函式別名：`f(x) = x * 2`
 - `.save` / `.load`：儲存與還原變數環境
-- 加入單元測試自動 CI（如 GitHub Actions）
 - GUI/Web 版封裝：使用 calculator_core
 
 ---
