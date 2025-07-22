@@ -34,4 +34,8 @@ namespace calculator {
         return evaluator_.evaluate();
     }
 
+    void Calculator::clear_variables() {
+        variables_.clear();
+    }
+
 }  // namespace calculator

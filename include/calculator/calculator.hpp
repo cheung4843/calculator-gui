@@ -17,6 +17,7 @@ namespace calculator {
             double compute(std::string_view expression);
             // 回傳 symbol table 參考
             const std::unordered_map<std::string, double>& get_variables() const;
+            void clear_variables();
 
         private:
             std::unordered_map<std::string, double> variables_;  // symbol table
