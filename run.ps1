@@ -1,22 +1,27 @@
-﻿# 確保進入 build 資料夾
-if (-Not (Test-Path build)) {
-  Write-Host "❌ 尚未建立 build 資料夾，請先執行 build.ps1 並完成 CMake 設定"
-  exit 1
+﻿Write-Host "🚀 Run Options:"
+Write-Host "1. Run CLI"
+Write-Host "2. Run GUI"
+$choice = Read-Host "Select run mode"
+
+$cli = ".\\build\\calculator_cli.exe"
+$gui = ".\\build\\gui\\calculator_gui.exe"
+
+switch ($choice) {
+  "1" {
+    if (Test-Path $cli) {
+      & $cli
+    } else {
+      Write-Host "CLI not built. Please run build.ps1 first."
+    }
+  }
+  "2" {
+    if (Test-Path $gui) {
+      & $gui
+    } else {
+      Write-Host "GUI not built. Please run build.ps1 first."
+    }
+  }
+  default {
+    Write-Host "Invalid choice."
+  }
 }
-cd build
-
-# 編譯 calculator target
-Write-Host "🔧 正在編譯 calculator..."
-mingw32-make -j8 calculator
-
-if ($LASTEXITCODE -ne 0) {
-  Write-Host "❌ 編譯失敗，請檢查錯誤訊息"
-  exit 1
-}
-
-# 執行主程式
-Write-Host "`n🚀 執行 calculator.exe"
-./calculator.exe
-
-# 返回專案根目錄
-Set-Location ..

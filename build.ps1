@@ -1,61 +1,33 @@
-﻿# Step 1: 檢查是否修改 CMakeLists.txt
-$changed = Read-Host "是否有修改 CMakeLists.txt？(y/n)"
+﻿Write-Host "🛠 Build Options:"
+Write-Host "1. Build CLI only"
+Write-Host "2. Build GUI only"
+Write-Host "3. Build all"
+$choice = Read-Host "Select build mode"
 
-if ($changed -eq "y") {
-  Write-Host "🔄 重新設定 CMake..."
-  if (Test-Path build) {
-    Remove-Item -Recurse -Force build
-  }
-  mkdir build | Out-Null
-  cd build
-  cmake ..
-  if ($LASTEXITCODE -ne 0) {
-    Write-Host "❌ CMake configure 失敗"
-    exit 1
-  }
-}
-else {
-  Write-Host "🚀 執行增量編譯"
-  cd build
+if (-not (Test-Path "build")) {
+  New-Item -ItemType Directory -Path "build" | Out-Null
 }
 
-# Step 2: 選擇要編譯的目標
-Write-Host ""
-Write-Host "🎯 請選擇要編譯的目標（可直接按 Enter 編譯全部）"
-Write-Host "  [1] 全部目標"
-Write-Host "  [2] calculator"
-Write-Host "  [3] test_calculator"
-Write-Host "  [4] test_tokenizer"
-Write-Host "  [5] test_parser"
-Write-Host "  [6] test_evaluator"
+Push-Location build
 
-$choice = Read-Host "請輸入選項編號（1-6）"
+if (-not (Test-Path "CMakeCache.txt")) {
+  cmake .. -G "Ninja"
+}
 
 switch ($choice) {
-  "2" { $target = "calculator" }
-  "3" { $target = "test_calculator" }
-  "4" { $target = "test_tokenizer" }
-  "5" { $target = "test_parser" }
-  "6" { $target = "test_evaluator" }
-  default { $target = "" }
+  "1" {
+    cmake --build . --target calculator_cli
+  }
+  "2" {
+    cmake --build . --target calculator_gui
+  }
+  "3" {
+    cmake --build . --target calculator_cli calculator_gui
+  }
+  default {
+    Write-Host "Invalid choice. Building all by default."
+    cmake --build . --target calculator_cli calculator_gui
+  }
 }
 
-# Step 3: 執行編譯
-Write-Host ""
-Write-Host "📦 開始編譯..."
-if ($target -eq "") {
-  mingw32-make -j8
-}
-else {
-  mingw32-make -j8 $target
-}
-
-if ($LASTEXITCODE -eq 0) {
-  Write-Host "`n✅ 編譯成功！"
-}
-else {
-  Write-Host "`n❌ 編譯失敗，請檢查錯誤訊息。"
-}
-
-# 返回專案根目錄
-Set-Location ..
+Pop-Location
