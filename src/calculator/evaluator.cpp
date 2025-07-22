@@ -43,24 +43,17 @@ namespace calculator {
                 num_st.push(it->second);
 
             } else if (token.type == TokenType::FUN) {
-                if (token.value == "sqrt") {
-                    double operand = num_st.top();
-                    num_st.pop();
-                    num_st.push(std::sqrt(operand));
-                } else if (token.value == "abs") {
-                    double operand = num_st.top();
-                    num_st.pop();
-                    num_st.push(std::abs(operand));
-                } else if (token.value == "pow") {  // 但目前還無法使用
-                    double rhs = num_st.top();
-                    num_st.pop();
-                    double lhs = num_st.top();
-                    num_st.pop();
-                    num_st.push(std::pow(lhs, rhs));
-                } else {
+                if (num_st.empty()) throw std::runtime_error("Missing argument for function");
+                double arg = num_st.top();
+                num_st.pop();
+
+                auto it = builtins_.find(token.value);
+                if (it == builtins_.end()) {
                     throw std::runtime_error("Unknown function: " + token.value);
                 }
 
+                double result = it->second(arg);
+                num_st.push(result);
             } else if (token.type == TokenType::OPERATOR) {
                 if (token.value == "NEG") {
                     if (num_st.empty()) {
