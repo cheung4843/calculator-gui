@@ -1,7 +1,7 @@
-# 🧮 calculator-cli
+# 🧮 calculator-repl
 
-一個用現代 C++ 開發的命令列計算機，支援基本四則運算。  
-採用模組化設計（Tokenizer / Parser / Evaluator），並使用 Catch2 進行單元測試。
+一個用現代 C++ 開發的命令列科學計算機，支援變數、函式、REPL 模式與完整單元測試。  
+採用模組化設計（Tokenizer / Parser / Evaluator / Calculator），並使用 Catch2 進行單元測試。
 
 ---
 
@@ -25,21 +25,43 @@ git clone https://github.com/cheung4843/calculator-cli.git
 cd calculator-cli
 ```
 
-2. 執行建置腳本：
+2. 執行建置腳本（支援增量編譯與目標選擇）：
 
 ```powershell
 ./build.ps1
 ```
 
-3. 執行主程式：
+3. 執行主程式（REPL 模式）：
 
-```bash
-./build/calculator.exe
+```powershell
+./run.ps1
 ```
 
 ---
 
+## 💡 支援語法與功能
+
+- 四則運算：`+`, `-`, `*`, `/`
+- 括號處理：`(2 + 3) * 4`
+- 科學記號：`1.2e5`, `3E-8`
+- 一元負號：`-5`, `x = -3`
+- 變數儲存與呼叫：`x = 5`, `x + 2`
+- 單參數函式：`sqrt(x)`, `abs(x)`, `log(x)`, `sin(x)`...
+- REPL 指令：
+  - `.vars`：顯示目前變數表
+  - `.clear`：清除所有變數
+  - `.help`：顯示說明
+  - `exit` / `quit`：離開程式
+
+---
+
 ## 🧪 單元測試
+
+所有模組皆具備 Catch2 單元測試，並已涵蓋：
+- Tokenizer：數字、運算子、括號、錯誤字元
+- Parser：中序轉後序、括號錯誤處理、函式
+- Evaluator：後序求值、變數、函式、例外
+- Calculator：整合測試、錯誤拋出
 
 執行所有測試：
 
@@ -49,9 +71,9 @@ cd calculator-cli
 
 或手動執行特定測試：
 
-```bash
-./build/test_calculator.exe
+```powershell
 ./build/test_tokenizer.exe
+./build/test_calculator.exe
 ```
 
 ---
@@ -61,41 +83,42 @@ cd calculator-cli
 ```
 calculator-cli/
 ├── app/                # 主程式入口 main.cpp
-├── include/            # 公開的 header 檔案
-│   └── calculator/
-├── src/                # 各模組的實作檔
-│   └── calculator/
-├── test/               # 單元測試
-├── third_party/        # Catch2 單檔測試框架
-├── build.ps1           # 智慧建構腳本（有判斷 CMakeLists.txt 是否變動）
+├── include/            # 公開 header（calculator_core 封裝）
+├── src/                # Tokenizer / Parser / Evaluator / REPL 實作
+├── test/               # Catch2 單元測試
+├── third_party/        # Catch2 單檔框架
+├── build.ps1           # 建構腳本（支援增量與互動選單）
+├── run.ps1             # 快速編譯並執行 calculator 主程式
 ├── test.ps1            # 自動執行所有測試
-├── run.ps1             # 只建構並執行主程式(不執行測試)
-├── CMakeLists.txt      # CMake 設定
-├── README.md
+├── CMakeLists.txt      # 專案建構設定
 └── docs/
     └── UML.md          # 類別結構圖（Mermaid 格式）
 ```
+
+📘 [View UML Diagram](docs/UML.md)
 
 ---
 
 ## 📐 設計理念
 
-- **模組分離**：Tokenizer / Parser / Evaluator 分工清楚，易於維護與測試
-- **可重複使用**：類別皆非 singleton，可透過 `set_expression()` 等方式重複使用
-- **使用現代 C++**：幾乎皆用 `auto` 推導與 STL 容器
-- **嚴謹測試**：每個模組都具備獨立單元測試
+- **模組分離**：Tokenizer / Parser / Evaluator / Calculator 分工清楚，易於維護與測試
+- **REPL 包裝**：使用 Calculator 作為門面類別，整合 Tokenizer/Parser/Evaluator 與變數表
+- **函式庫重用**：核心邏輯抽出為 `calculator_core`，REPL / GUI 皆可共用
+- **現代 C++ 實作**：`auto`, `string_view`, `unordered_map`, `std::function`
+- **測試導向**：每個模組皆具備單元測試與錯誤處理測試
 
 ---
 
-## ✨ 未來改進
+## ✨ 下一步規劃
 
-- 支援函式、負號、浮點精度更高的運算
-- 加入中序表示法直接求值
-- 改為 REPL 模式
-- 支援科學記號或更多 operator
+- 支援多參數函式：如 `pow(x, y)`
+- 自定函式與函式別名：`f(x) = x * 2`
+- `.save` / `.load`：儲存與還原變數環境
+- 加入單元測試自動 CI（如 GitHub Actions）
+- GUI/Web 版封裝：使用 calculator_core
 
 ---
 
 ## 🙌 作者
 
-Created with 💻 by Cheung4843
+Created with 💻 by [Cheung4843](https://github.com/cheung4843)

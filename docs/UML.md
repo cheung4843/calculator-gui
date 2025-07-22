@@ -1,34 +1,39 @@
+# 📐 類別結構圖（Mermaid）
+
 ```mermaid
 classDiagram
-    class Token {
-        +TokenType type
-        +std::string value
-    }
+  class Tokenizer {
+    - expression_ : string_view
+    - pos_ : size_t
+    + tokenize() : vector<Token>
+  }
 
-    class Tokenizer {
-        -std::string expr_
-        -size_t pos_
-        +Tokenizer()
-        +void set_expression(std::string)
-        +std::vector<Token> tokenize()
-    }
+  class Parser {
+    - tokens_ : vector<Token>
+    + to_postfix() : vector<Token>
+  }
 
-    class Parser {
-        -std::vector<Token> tokens_
-        +Parser()
-        +void set_tokens(std::vector<Token>)
-        +std::vector<Token> to_postfix()
-    }
+  class Evaluator {
+    - postfix_ : vector<Token>
+    - variables_ : unordered_map<string, double>&
+    + evaluate() : double
+  }
 
-    class Evaluator {
-        -std::vector<Token> postfix_tokens_
-        +Evaluator()
-        +void set_postfix(std::vector<Token>)
-        +double evaluate()
-    }
+  class Calculator {
+    - variables_ : unordered_map<string, double>
+    + compute(expr: string_view) : double
+    + get_variables() : map<string, double>
+    + clear_variables() : void
+  }
 
-    %% 類別關係
-    Tokenizer --> Token
-    Parser --> Token
-    Evaluator --> Token
+  class CalculatorRepl {
+    - calc_ : Calculator
+    + run() : void
+  }
+
+  %% 關係
+  Calculator --> Tokenizer : uses
+  Calculator --> Parser : uses
+  Calculator --> Evaluator : uses
+  CalculatorRepl *-- Calculator : owns
 ```
