@@ -4,6 +4,8 @@
 
 本專案是 [calculator-repl](https://github.com/cheung4843/calculator-repl) 的圖形介面延伸版，具備完整運算功能、函式支援、括號與科學記號(科學記號於 GUI 模式中則是手動輸入)解析。
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/cheung4843/calculator-gui)
+
 <table>
   <tr>
     <td><img src="docs/sample_1.jpg" alt="input" width="320"/></td>
