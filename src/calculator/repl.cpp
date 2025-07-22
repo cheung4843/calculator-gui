@@ -5,7 +5,7 @@
 
 namespace calculator {
     void CalculatorRepl::run() {
-        std::cout << "Welcome to calculator-cli! tpye '.vars' to show all variables\n";
+        std::cout << "Welcome to calculator-repl! tpye '.vars' to show all variables\n";
         std::cout << "Type an expression (e.g., 4 + 8 * (4 - 3)) or type 'exit' to quit.\n";
 
         Calculator calc;
@@ -18,6 +18,7 @@ namespace calculator {
             if (!handle_input(input)) {
                 break;
             }
+            // 顯示所有變數
             if (input == ".vars") {
                 const auto& vars = calc.get_variables();
                 if (vars.empty()) {
@@ -25,7 +26,7 @@ namespace calculator {
                 } else {
                     std::cout << "Variables:\n";
                     for (const auto& [name, value] : vars) {
-                        std::cout << "  " << name << " = " << value << "\n";
+                        std::cout << name << " = " << value << "\n";
                     }
                 }
                 continue;
@@ -33,7 +34,7 @@ namespace calculator {
 
             try {
                 double result = calc.compute(input);
-                std::cout << "Result = " << result << "\n";
+                std::cout << result << "\n";
             } catch (const std::exception& e) {
                 std::cerr << "Error: " << e.what() << "\n";
             }

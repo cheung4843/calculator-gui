@@ -1,5 +1,6 @@
 #include <stack>
 #include <stdexcept>
+#include <cmath>
 
 #include "calculator/evaluator.hpp"
 
@@ -40,6 +41,25 @@ namespace calculator {
                     throw std::runtime_error("Undefined variable: " + token.value);
                 }
                 num_st.push(it->second);
+
+            } else if (token.type == TokenType::FUN) {
+                if (token.value == "sqrt") {
+                    double operand = num_st.top();
+                    num_st.pop();
+                    num_st.push(std::sqrt(operand));
+                } else if (token.value == "abs") {
+                    double operand = num_st.top();
+                    num_st.pop();
+                    num_st.push(std::abs(operand));
+                } else if (token.value == "pow") {  // 但目前還無法使用
+                    double rhs = num_st.top();
+                    num_st.pop();
+                    double lhs = num_st.top();
+                    num_st.pop();
+                    num_st.push(std::pow(lhs, rhs));
+                } else {
+                    throw std::runtime_error("Unknown function: " + token.value);
+                }
 
             } else if (token.type == TokenType::OPERATOR) {
                 if (token.value == "NEG") {

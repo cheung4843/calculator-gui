@@ -15,7 +15,7 @@ namespace calculator {
         std::vector<Token> output;
         std::stack<Token> op_st;
 
-        // 支援變數賦值
+        // 判斷是否是賦值運算式
         bool is_assignment = false;
         std::string assign_var;
 
@@ -30,13 +30,23 @@ namespace calculator {
                 if (i + 1 < tokens_.size() && tokens_[i + 1].type == TokenType::ASSIGN) {
                     is_assignment = true;      // 表示使用者輸入的是賦值運算式
                     assign_var = token.value;  // 把變數名記下來
-                    ++i;                       // 跳過 `=`
+                    ++i;                       // 跳過
+                          // `=`，因此他是不進入堆疊的(與整個後序轉中序無關)，我們在最後特別處理(見最下方)
                     continue;
                 }
-                // 否則就只是變數的參照
+
+                // 單參數函式呼叫
+                // 如果下一個 token 是左括號，就是函數呼叫
+                if (i + 1 < tokens_.size() && tokens_[i + 1].type == TokenType::LPAREN) {
+                    // 轉換成函式 Token 放入堆疊
+                    op_st.push(Token(TokenType::FUN, token.value));
+                    continue;
+                }
+
+                // 一般變數參照
                 output.push_back(token);
             } else if (token.type == TokenType::OPERATOR) {
-                // 檢查是否為一元負號
+                // 檢查是否為一元負號，是的話就轉換成 "NEG"
                 const Token &curr_token =
                     is_unary_minus(tokens_, i) ? Token(TokenType::OPERATOR, "NEG") : token;
 
@@ -61,6 +71,13 @@ namespace calculator {
                 }
 
                 op_st.pop();  // 丟掉左括號
+
+                // 如果 stack 頂是函式，代表這是函式呼叫，再 pop 出來放入 output
+                // abs(-3) => 3 NEG abs
+                if (!op_st.empty() && op_st.top().type == TokenType::FUN) {
+                    output.push_back(op_st.top());
+                    op_st.pop();
+                }
             }
         }
 
