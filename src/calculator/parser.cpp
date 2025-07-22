@@ -47,7 +47,7 @@ namespace calculator {
                 output.push_back(token);
             } else if (token.type == TokenType::OPERATOR) {
                 // 檢查是否為一元負號，是的話就轉換成 "NEG"
-                const Token &curr_token =
+                Token curr_token =
                     is_unary_minus(tokens_, i) ? Token(TokenType::OPERATOR, "NEG") : token;
 
                 // 持續 pop 出 stack 中的運算子，直到遇到優先級較低的運算子或左括號

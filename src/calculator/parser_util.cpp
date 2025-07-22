@@ -31,10 +31,11 @@ namespace calculator {
         }
         // 特例，如果是第一個 token，則一定是一元負號，例如 "-5"
         if (index == 0) return true;
-        // 看前一個 token 是否為運算子或左括號
+        // 看前一個 token
         TokenType prev_type = tokens[index - 1].type;
-        // 例如 (-3) 或 4 + -5
-        return prev_type == TokenType::OPERATOR || prev_type == TokenType::LPAREN;
+        // 例如 (-3), 3 + -4, x = -5
+        return prev_type == TokenType::OPERATOR || prev_type == TokenType::ASSIGN ||
+               prev_type == TokenType::LPAREN;
     }
 
 }  // namespace calculator

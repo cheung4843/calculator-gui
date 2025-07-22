@@ -15,6 +15,7 @@ namespace calculator {
         tokenizer_.set_input(expression);
         std::vector<Token> tokens = tokenizer_.tokenize();
 
+        std::cout << "Tokens: ";
         for (const auto &token : tokens) {
             std::cout << token.value << ' ';
         }
@@ -23,6 +24,7 @@ namespace calculator {
         parser_.set_tokens(tokens);
         std::vector<Token> postfix = parser_.to_postfix();
 
+        std::cout << "Postfix: ";
         for (const auto &token : postfix) {
             std::cout << token.value << ' ';
         }
