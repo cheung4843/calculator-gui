@@ -24,7 +24,7 @@ int main() {
     constexpr int padding = 10;
 
     int gui_width = cols * button_w + (cols - 1) * padding + 20;
-    int gui_height = rows * button_h + 150;
+    int gui_height = rows * button_h + 200;
 
     // 建立與 GUI 尺寸一致的 GLFW 視窗
     GLFWwindow* window = glfwCreateWindow(gui_width, gui_height, "Calculator", nullptr, nullptr);

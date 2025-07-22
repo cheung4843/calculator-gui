@@ -1,3 +1,4 @@
+* text=auto
 # 忽略編譯產物
 /build/
 /CMakeFiles/
