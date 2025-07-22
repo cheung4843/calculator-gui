@@ -1,39 +1,21 @@
-# 📐 類別結構圖（Mermaid）
+# 📐 類別圖：GuiRenderer + Calculator
 
 ```mermaid
 classDiagram
-  class Tokenizer {
-    - expression_ : string_view
-    - pos_ : size_t
-    + tokenize() : vector<Token>
-  }
-
-  class Parser {
-    - tokens_ : vector<Token>
-    + to_postfix() : vector<Token>
-  }
-
-  class Evaluator {
-    - postfix_ : vector<Token>
-    - variables_ : unordered_map<string, double>&
-    + evaluate() : double
+  class GuiRenderer {
+    - calculator_: Calculator&
+    - input_: string
+    - last_result_: double
+    - just_evaluated_: bool
+    + render(): void
+    + handle_button(label: string): void
+    + evaluate_expression(): void
+    + clear_input(): void
   }
 
   class Calculator {
-    - variables_ : unordered_map<string, double>
-    + compute(expr: string_view) : double
-    + get_variables() : map<string, double>
-    + clear_variables() : void
+    + compute(expression: string): double
   }
 
-  class CalculatorRepl {
-    - calc_ : Calculator
-    + run() : void
-  }
-
-  %% 關係
-  Calculator --> Tokenizer : uses
-  Calculator --> Parser : uses
-  Calculator --> Evaluator : uses
-  CalculatorRepl *-- Calculator : owns
+  GuiRenderer --> Calculator : uses
 ```
